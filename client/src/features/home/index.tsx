@@ -8,12 +8,13 @@ import {
 } from "@/components/ui/dialog"
 import CustomForm from "@/components/CustomForm"
 import Project from "@/components/Project"
+import Pages from "@/components/Pages"
+import CustomLayout from "@/components/CustomLayout"
 
 function HomeScreen() {
     return (
-        <div className="p-4 min-h-screen">
+        <CustomLayout>
             <div className="relative">
-                <Project />
                 <div className="absolute top-0 right-0">
                     <Dialog>
                         <DialogTrigger asChild>
@@ -27,8 +28,14 @@ function HomeScreen() {
                         </DialogContent>
                     </Dialog>
                 </div>
+                <div className="flex flex-col">
+                    <div className="min-h-screen mb-4">
+                        <Project />
+                    </div>
+                    <Pages />
+                </div>
             </div>
-        </div>
+        </CustomLayout>
     )
 }
 
