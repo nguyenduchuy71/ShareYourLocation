@@ -1,130 +1,43 @@
-import { useState } from "react";
-import { Transition } from "@headlessui/react";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button"
+import { MapPinIcon, Bars3Icon } from '@heroicons/react/20/solid';
+import { Link } from 'react-router-dom';
+import CustomRoute from "./CustomRoute";
 
 function NavBar() {
-    const [isOpen, setIsOpen] = useState(false);
     return (
-        <div>
-            <nav className="bg-gray-800">
-                <div className="mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        <div className="flex items-center">
-                            <div className="flex-shrink-0">
-                                <img
-                                    className="h-10 w-10"
-                                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                                    alt="Workflow"
-                                />
-                            </div>
-                            <div className="hidden md:block">
-                                <div className="ml-10 flex items-baseline space-x-4">
-                                    <a
-                                        href="#"
-                                        className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
-                                    >
-                                        Dashboard
-                                    </a>
-
-                                    <a
-                                        href="#"
-                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                    >
-                                        Team
-                                    </a>
-
-                                    <a
-                                        href="#"
-                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                    >
-                                        Projects
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="-mr-2 flex md:hidden">
-                            <button
-                                onClick={() => setIsOpen(!isOpen)}
-                                type="button"
-                                className="bg-gray-900 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                                aria-controls="mobile-menu"
-                                aria-expanded="false"
-                            >
-                                {!isOpen ? (
-                                    <svg
-                                        className="block h-6 w-6"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M4 6h16M4 12h16M4 18h16"
-                                        />
-                                    </svg>
-                                ) : (
-                                    <svg
-                                        className="block h-6 w-6"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M6 18L18 6M6 6l12 12"
-                                        />
-                                    </svg>
-                                )}
-                            </button>
-                        </div>
-                    </div>
+        <header className="sticky top-0 z-40 bg-slate-400 px-2 md:px-4">
+            <div className="flex h-16 items-center justify-between px-4 md:px-6">
+                <Link to="/" className="flex items-center" >
+                    <MapPinIcon className="size-8" />
+                </Link>
+                <nav className="hidden items-center gap-4 md:flex">
+                    <CustomRoute route="/projects" name="Projects" />
+                </nav>
+                <div className="hidden items-center gap-4 md:flex">
+                    <CustomRoute route='/login' name="Login" />
                 </div>
-
-                <Transition
-                    show={isOpen}
-                    enter="transition ease-out duration-100 transform"
-                    enterFrom="opacity-0 scale-95"
-                    enterTo="opacity-100 scale-100"
-                    leave="transition ease-in duration-75 transform"
-                    leaveFrom="opacity-100 scale-100"
-                    leaveTo="opacity-0 scale-95"
-                >
-                    {(_) => (
-                        <div className="md:hidden" id="mobile-menu">
-                            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                                <a
-                                    href="#"
-                                    className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
-                                >
-                                    Dashboard
-                                </a>
-
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                                >
-                                    Team
-                                </a>
-
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                                >
-                                    Projects
-                                </a>
-                            </div>
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <Button variant="outline" size="icon" className="md:hidden">
+                            <Bars3Icon className="size-8" />
+                            <span className="sr-only">Toggle navigation menu</span>
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="right" className="w-full max-w-xs">
+                        <div className="flex h-16 items-center justify-between px-4">
+                            <Link to="/" className="flex items-center" >
+                                <MapPinIcon className="size-10" />
+                            </Link>
                         </div>
-                    )}
-                </Transition>
-            </nav>
-        </div>
+                        <div className="grid gap-4 p-4">
+                            <CustomRoute route="/projects" name="Projects" />
+                            <CustomRoute route='/login' name="Login" />
+                        </div>
+                    </SheetContent>
+                </Sheet>
+            </div>
+        </header>
     );
 }
 

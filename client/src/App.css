@@ -2,8 +2,3 @@ body {
   scroll-behavior: smooth;
   overflow: auto;
 }
-
-.app {
-  min-width: 100%;
-  min-height: 100vh;
-}

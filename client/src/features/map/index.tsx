@@ -9,7 +9,7 @@ function MapScreen() {
     const longitude = -0.09;
     return (
         <div className='overflow-hidden'>
-            <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef} style={{ height: "100vh", width: "100vw" }}>
+            <MapContainer center={[latitude, longitude]} zoom={10} ref={mapRef} style={{ height: "100vh", width: "100vw" }}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
