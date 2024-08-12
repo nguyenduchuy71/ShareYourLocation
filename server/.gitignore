@@ -1,0 +1,8 @@
+venv
+env
+.env
+**/__pycache__/
+sql_app.db
+firebase/*.json
+*.db
+.coverage
