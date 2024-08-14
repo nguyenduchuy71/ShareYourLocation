@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from users.schema import user
 from auth.utils import AuthUtil
+from users.models import User
 
 class UserController:
     
