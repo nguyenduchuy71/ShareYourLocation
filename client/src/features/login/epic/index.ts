@@ -18,8 +18,8 @@ export const useAuthStore = create<IAuthenStore>((set) => ({
           userId: res.data.userId,
         });
         sessionStorage.setItem('userInfo', userInfo);
-        sessionStorage.setItem('auth', res.data.token);
-        set({ authToken: res.data.token });
+        sessionStorage.setItem('auth', res.data.userId);
+        set({ authToken: res.data.userId });
         set({ authInfo: userInfo });
       }
     } catch (error) {
@@ -40,8 +40,8 @@ export const useAuthStore = create<IAuthenStore>((set) => ({
         });
 
         sessionStorage.setItem('userInfo', userInfo);
-        sessionStorage.setItem('auth', res.data.token);
-        set({ authToken: res.data.token });
+        sessionStorage.setItem('auth', res.data.userId);
+        set({ authToken: res.data.userId });
         set({ authInfo: userInfo });
       }
     } catch (error) {
@@ -50,6 +50,14 @@ export const useAuthStore = create<IAuthenStore>((set) => ({
     }
     finally {
       // triggerNotify(message);
+    }
+  },
+  checkUserSessionEpic: async () => {
+    try {
+      const res = await axios.get(`${BASEURL}/session`, { withCredentials: true });
+      return res.data;
+    } catch (error) {
+      return null;
     }
   },
   logoutEpic: () => {

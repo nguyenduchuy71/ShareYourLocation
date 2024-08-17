@@ -32,7 +32,7 @@ function NavBar() {
                         </div>
                         <div className="grid gap-4 p-4">
                             <CustomRoute route="/projects" name="Projects" />
-                            <CustomRoute route='/login' name="Login" />
+                            <CustomRoute route='/login' name='Login' />
                         </div>
                     </SheetContent>
                 </Sheet>

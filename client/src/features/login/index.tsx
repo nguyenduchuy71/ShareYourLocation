@@ -20,6 +20,7 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 import { useToast } from "@/components/ui/use-toast"
+import { EyeIcon } from '@heroicons/react/20/solid';
 
 function LoginScreen() {
     const [authToken, loginEpic, signUpEpic] = useAuthStore((state: IAuthenStore) => [
@@ -84,7 +85,12 @@ function LoginScreen() {
                                 </div>
                                 <div className="space-y-1">
                                     <Label htmlFor="password">Password</Label>
-                                    <Input onChange={(e) => setPassword(e.target.value)} id="password" type="password" />
+                                    <div className="relative">
+                                        <Input onChange={(e) => setPassword(e.target.value)} id="password" type="password" />
+                                        <Button variant="ghost" size="icon" className="absolute top-1/2 right-2 -translate-y-1/2">
+                                            <EyeIcon className="h-5 w-5" />
+                                        </Button>
+                                    </div>
                                 </div>
                             </CardContent>
                             <CardFooter className="flex justify-center">
@@ -107,11 +113,21 @@ function LoginScreen() {
                                 </div>
                                 <div className="space-y-1">
                                     <Label htmlFor="newPassword">Password</Label>
-                                    <Input onChange={(e) => setPassword(e.target.value)} id="newPassword" type="password" />
+                                    <div className="relative">
+                                        <Input onChange={(e) => setPassword(e.target.value)} id="newPassword" type="password" />
+                                        <Button variant="ghost" size="icon" className="absolute top-1/2 right-2 -translate-y-1/2">
+                                            <EyeIcon className="h-5 w-5" />
+                                        </Button>
+                                    </div>
                                 </div>
                                 <div className="space-y-1">
                                     <Label htmlFor="confirmPassword">Confirm password</Label>
-                                    <Input onChange={(e) => setConfirmPassword(e.target.value)} id="confirmPassword" type="password" />
+                                    <div className="relative">
+                                        <Input onChange={(e) => setConfirmPassword(e.target.value)} id="confirmPassword" type="password" />
+                                        <Button variant="ghost" size="icon" className="absolute top-1/2 right-2 -translate-y-1/2">
+                                            <EyeIcon className="h-5 w-5" />
+                                        </Button>
+                                    </div>
                                 </div>
                             </CardContent>
                             <CardFooter className="flex justify-center">

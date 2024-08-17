@@ -10,20 +10,26 @@ import NotFoundScreen from './features/error';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import GroupsScreen from './features/groups';
+import { AuthProvider } from '@/features/auth/AuthContext';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 function App() {
   return (
     <div className="w-full">
       <Navbar />
       <div>
-        <Routes>
-          <Route path="/" index element={<HomeScreen />} />
-          <Route path="/map" element={<MapScreen />} />
-          <Route path="/login" element={<LoginScreen />} />
-          <Route path="/projects" element={<ProjectScreen />} />
-          <Route path="/groups" element={<GroupsScreen />} />
-          <Route path="*" element={<NotFoundScreen />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" index element={<HomeScreen />} />
+            <Route path="/map" element={<MapScreen />} />
+            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/projects" element={
+              <ProtectedRoute component={ProjectScreen} />
+            } />
+            <Route path="/groups" element={<GroupsScreen />} />
+            <Route path="*" element={<NotFoundScreen />} />
+          </Routes>
+        </AuthProvider>
       </div>
       <Toaster />
       <Footer />

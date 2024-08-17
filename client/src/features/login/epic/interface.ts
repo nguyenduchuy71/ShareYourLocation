@@ -7,4 +7,5 @@ export interface IAuthenStore {
   logoutEpic: () => void;
   getAuthenTokenEpic: () => void;
   getAuthenUserInfo: () => void;
+  checkUserSessionEpic: () => void;
 }
