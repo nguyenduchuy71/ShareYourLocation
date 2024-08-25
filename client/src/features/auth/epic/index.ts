@@ -5,22 +5,18 @@ import { messages } from './messages'
 const BASEURL = `http://localhost:${import.meta.env.VITE_BACKEND_PORT}`;
 
 export const useAuthStore = create<IAuthenStore>((set) => ({
-  authInfo: {},
+  authInfo: null,
   authToken: null,
   error: null,
   loginEpic: async (credentials: any) => {
     let message = messages.loginSuccess;
     try {
-      const res = await axios.post(`${BASEURL}/login`, credentials);
+      const res = await axios.post(`${BASEURL}/login`, credentials, { withCredentials: true });
       if (res.status === 200) {
-        const userInfo = JSON.stringify({
-          email: credentials.email,
-          userId: res.data.userId,
-        });
-        sessionStorage.setItem('userInfo', userInfo);
-        sessionStorage.setItem('auth', res.data.userId);
-        set({ authToken: res.data.userId });
+        const userInfo = JSON.stringify(res.data)
+        sessionStorage.setItem('auth', userInfo);
         set({ authInfo: userInfo });
+        window.location.href = '/'
       }
     } catch (error) {
       message = messages.loginFail;
@@ -32,17 +28,12 @@ export const useAuthStore = create<IAuthenStore>((set) => ({
   signUpEpic: async (credentials: any) => {
     let message = messages.signUpSuccess;
     try {
-      const res = await axios.post(`${BASEURL}/signup`, credentials);
+      const res = await axios.post(`${BASEURL}/signup`, credentials, { withCredentials: true });
       if (res.status === 200) {
-        const userInfo = JSON.stringify({
-          email: credentials.email,
-          userId: res.data.userId,
-        });
-
-        sessionStorage.setItem('userInfo', userInfo);
-        sessionStorage.setItem('auth', res.data.userId);
-        set({ authToken: res.data.userId });
+        const userInfo = JSON.stringify(res.data)
+        sessionStorage.setItem('auth', userInfo);
         set({ authInfo: userInfo });
+        window.location.href = '/'
       }
     } catch (error) {
       message = messages.signUpFail;
@@ -60,14 +51,13 @@ export const useAuthStore = create<IAuthenStore>((set) => ({
       return null;
     }
   },
-  logoutEpic: () => {
-    sessionStorage.removeItem('userInfo');
+  logoutEpic: async () => {
+    await axios.post(`${BASEURL}/logout`, { withCredentials: true });
     sessionStorage.removeItem('auth');
-  },
-  getAuthenTokenEpic: () => {
-    set({ authToken: sessionStorage.getItem('auth') });
+    set({ authInfo: null });
+    window.location.href = '/login';
   },
   getAuthenUserInfo: () => {
-    set({ authInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {} });
+    set({ authInfo: JSON.parse(sessionStorage.getItem('auth')) || null });
   },
 }));

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { IAuthenStore } from "@/features/login/epic/interface";
-import { useAuthStore } from "@/features/login/epic";
+import { IAuthenStore } from "@/features/auth/epic/interface";
+import { useAuthStore } from "@/features/auth/epic";
 import CustomLayout from "@/components/CustomLayout"
 import { Button } from "@/components/ui/button"
 import {
@@ -23,33 +23,31 @@ import { useToast } from "@/components/ui/use-toast"
 import { EyeIcon } from '@heroicons/react/20/solid';
 
 function LoginScreen() {
-    const [authToken, loginEpic, signUpEpic] = useAuthStore((state: IAuthenStore) => [
-        state.authToken,
+    const [authInfo, loginEpic, signUpEpic] = useAuthStore((state: IAuthenStore) => [
+        state.authInfo,
         state.loginEpic,
         state.signUpEpic,
     ]);
     useEffect(() => {
-        if (authToken) {
+        if (authInfo) {
             window.location.href = "/";
         }
-        return () => {
-        };
-    }, [authToken]);
+    }, []);
     const { toast } = useToast()
     const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const handleLogin = async (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
         if (isLogin) {
-            await loginEpic({
+            loginEpic({
                 email,
                 password,
             });
         } else {
             if (confirmPassword === password) {
-                await signUpEpic({
+                signUpEpic({
                     email,
                     password,
                 });

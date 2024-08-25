@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 
-function CustomRoute({ route, name }) {
+function CustomRoute({ route, name, isLogout = false, logoutAction = () => { } }) {
     return (
-        <Link className="text-sm font-medium transition-colors hover:text-primary" to={route}>{name}</Link>
+        <div className="text-sm font-medium transition-colors hover:text-primary">
+            {isLogout ? <span onClick={logoutAction} className="cursor-pointer"> {name} </span> :
+                <Link to={route}>{name}</Link>}
+        </div>
     )
 }
 

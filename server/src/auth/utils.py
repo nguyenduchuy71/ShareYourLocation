@@ -4,12 +4,12 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
-from auth.schema import TokenData
 from db import database
-from users.models import User
+from models.userModel import User
 from log.logger import logger
 from auth.config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY, SESSION_COOKIE_NAME
 from itsdangerous import URLSafeSerializer
+from auth.exception import AuthException
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -34,25 +34,13 @@ class AuthUtil:
 
     @staticmethod
     def getCurrentUser(token: str = Depends(oauth2_scheme), db: Session = Depends(database.get_db)):
-        def verifyAccessToken(session, credentials_exception):
-            try:
-                token = serializer.loads(session)
-                payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-                id: str = payload.get("user_id")
-                if id is None:
-                    raise credentials_exception
-                return TokenData(id=str(id))
-            except JWTError:
-                raise credentials_exception
-        credentials_exception = HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Could not validate credentials", headers={"WWW-Authenticate": "Bearer"})
         session = request.cookies.get(SESSION_COOKIE_NAME)
         if not session:
             raise HTTPException(status_code=403, detail="Not authenticated")
-        user_data = verifyAccessToken(session)
-        if db.query(User).filter(User.id == user_data.id).first() is None:
-            raise credentials_exception
-        return user_data
+        userId = verifySession(session)
+        if db.query(User).filter(User.id == userId).first() is None:
+            raise AuthException.credentialException()
+        return userId
 
     @staticmethod
     def createSession(data: dict):
@@ -60,18 +48,15 @@ class AuthUtil:
         expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         to_encode.update({"exp": expire})
         encode_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-        return serializer.dumps({"token": encode_jwt})
+        return encode_jwt
 
     @staticmethod
-    def verifySession(session):
+    def verifySession(session) -> str:
         try:
-            token = serializer.loads(session)
-            logger.info('verifySession:', token)
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-            id: str = payload.get("user_id")
-            if id is None:
-                raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Could not validate credentials", headers={"WWW-Authenticate": "Bearer"})
-            return TokenData(id=str(id))
-        except Exception:
-            return None
+            payload = jwt.decode(session, SECRET_KEY, algorithms=[ALGORITHM])
+            userId = payload.get("userId")
+            if userId is None:
+                raise AuthException.credentialException()
+            return userId
+        except Exception as error:
+            return error

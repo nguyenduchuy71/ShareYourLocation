@@ -1,39 +1,41 @@
 import './App.css'
 import "leaflet/dist/leaflet.css";
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster"
-import HomeScreen from './features/home';
-import MapScreen from './features/map';
-import ProjectScreen from './features/project';
-import LoginScreen from './features/login';
-import NotFoundScreen from './features/error';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import GroupsScreen from './features/groups';
-import { AuthProvider } from '@/features/auth/AuthContext';
+import HomeScreen from '@/features/home';
+import MapScreen from '@/features/map';
+import ProjectScreen from '@/features/project';
+import LoginScreen from '@/features/auth';
+import NotFoundScreen from '@/features/error';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import GroupsScreen from '@/features/groups';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
 function App() {
   return (
-    <div className="w-full">
+    <React.Fragment>
       <Navbar />
       <div>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" index element={<HomeScreen />} />
-            <Route path="/map" element={<MapScreen />} />
-            <Route path="/login" element={<LoginScreen />} />
-            <Route path="/projects" element={
-              <ProtectedRoute component={ProjectScreen} />
-            } />
-            <Route path="/groups" element={<GroupsScreen />} />
-            <Route path="*" element={<NotFoundScreen />} />
-          </Routes>
-        </AuthProvider>
+        <Routes>
+          <Route path="/" index element={<HomeScreen />} />
+          <Route path="/map" element={
+            <ProtectedRoute component={MapScreen} />
+          } />
+          <Route path="/projects" element={
+            <ProtectedRoute component={ProjectScreen} />
+          } />
+          <Route path="/groups" element={
+            <ProtectedRoute component={GroupsScreen} />
+          } />
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="*" element={<NotFoundScreen />} />
+        </Routes>
       </div>
       <Toaster />
       <Footer />
-    </div>
+    </React.Fragment>
   )
 }
 

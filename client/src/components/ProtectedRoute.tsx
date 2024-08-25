@@ -1,14 +1,29 @@
-import { useAuth } from "@/features/auth/AuthContext";
-import { Navigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { IAuthenStore } from "@/features/auth/epic/interface";
+import { useAuthStore } from "@/features/auth/epic";
+import { redirect } from "react-router-dom";
+import Loading from './Loading';
 
-function ProtectedRoute({ component: Component, ...rest }) {
-    const { user } = useAuth();
+export default function ProtectedRoute({ component: Component, ...props }) {
+    const [checkingValidUser, setCheckingValidUser] = useState(false);
+    const [checkUserSessionEpic] = useAuthStore((state: IAuthenStore) => [
+        state.checkUserSessionEpic,
+    ]);
+    useEffect(() => {
+        const fetchUserSession = async () => {
+            const userData: any = await checkUserSessionEpic();
+            if (!userData) {
+                return redirect('/login')
+            }
+            setCheckingValidUser(true);
+        };
 
-    if (!user) {
-        return <Navigate to="/login" replace />;
+        fetchUserSession();
+    }, []);
+
+    if (!checkingValidUser) {
+        return <Loading />
     }
 
-    return <Component {...rest} />;
+    return <Component {...props} />;
 }
-
-export default ProtectedRoute;
