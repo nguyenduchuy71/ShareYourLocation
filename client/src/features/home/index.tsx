@@ -1,4 +1,4 @@
-import CustomLayout from "@/components/CustomLayout"
+import CustomLayout from "@/components/custom/CustomLayout"
 import { Button } from "@/components/ui/button"
 import imagePage1 from '@/assets/pic1.jfif'
 import imagePage2 from '@/assets/pic2.jfif'

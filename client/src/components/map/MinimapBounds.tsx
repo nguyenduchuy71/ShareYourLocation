@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useMap, useMapEvent, Rectangle } from 'react-leaflet';
 import { useEventHandlers } from '@react-leaflet/core'
 

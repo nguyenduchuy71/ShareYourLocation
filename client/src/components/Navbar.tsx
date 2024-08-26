@@ -3,7 +3,7 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { MapPinIcon, Bars3Icon } from '@heroicons/react/20/solid';
 import { Link } from 'react-router-dom';
-import CustomRoute from "./CustomRoute";
+import CustomRoute from "./custom/CustomRoute";
 import { IAuthenStore } from "@/features/auth/epic/interface";
 import { useAuthStore } from "@/features/auth/epic";
 

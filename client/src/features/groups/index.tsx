@@ -1,4 +1,4 @@
-import CustomLayout from '@/components/CustomLayout'
+import CustomLayout from '@/components/custom/CustomLayout'
 import { DataTableView } from '@/components/DataTableView'
 
 function GroupsScreen() {

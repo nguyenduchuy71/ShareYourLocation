@@ -18,7 +18,8 @@ function Footer() {
                             navigator.geolocation.getCurrentPosition((position) => {
                                 toast({
                                     title: "Your location",
-                                    description: `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`,
+                                    description: `Latitude: ${position.coords.latitude}, 
+                                    Longitude: ${position.coords.longitude}`,
                                 })
                             })
                         } else {

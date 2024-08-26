@@ -17,22 +17,20 @@ function App() {
   return (
     <React.Fragment>
       <Navbar />
-      <div>
-        <Routes>
-          <Route path="/" index element={<HomeScreen />} />
-          <Route path="/map" element={
-            <ProtectedRoute component={MapScreen} />
-          } />
-          <Route path="/projects" element={
-            <ProtectedRoute component={ProjectScreen} />
-          } />
-          <Route path="/groups" element={
-            <ProtectedRoute component={GroupsScreen} />
-          } />
-          <Route path="/login" element={<LoginScreen />} />
-          <Route path="*" element={<NotFoundScreen />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" index element={<HomeScreen />} />
+        <Route path="/map" element={
+          <ProtectedRoute component={MapScreen} />
+        } />
+        <Route path="/projects" element={
+          <ProtectedRoute component={ProjectScreen} />
+        } />
+        <Route path="/groups" element={
+          <ProtectedRoute component={GroupsScreen} />
+        } />
+        <Route path="/login" element={<LoginScreen />} />
+        <Route path="*" element={<NotFoundScreen />} />
+      </Routes>
       <Toaster />
       <Footer />
     </React.Fragment>

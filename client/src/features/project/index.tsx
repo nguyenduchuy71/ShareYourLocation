@@ -6,10 +6,10 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import CustomForm from "@/components/CustomForm"
+import CustomForm from "@/components/custom/CustomForm"
 import Project from "@/components/Project"
 import Pages from "@/components/Pages"
-import CustomLayout from "@/components/CustomLayout"
+import CustomLayout from "@/components/custom/CustomLayout"
 
 function ProjectScreen() {
     return (

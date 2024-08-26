@@ -5,12 +5,12 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "./ui/form"
+} from "../ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Input } from "./ui/input"
-import { Button } from "./ui/button"
+import { Input } from "../ui/input"
+import { Button } from "../ui/button"
 
 const formSchema = z.object({
     projectName: z.string().min(2, {
@@ -44,7 +44,7 @@ function CustomForm() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Create</Button>
             </form>
         </Form>
     )
