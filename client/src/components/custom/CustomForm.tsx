@@ -18,15 +18,15 @@ const formSchema = z.object({
     }),
 })
 
-function CustomForm() {
+function CustomForm({ actions }) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             projectName: "",
         },
     })
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
+        actions({ name: values.projectName, description: "" })
     }
     return (
         <Form {...form}>

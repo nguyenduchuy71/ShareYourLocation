@@ -5,7 +5,7 @@ import sys
 import json
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from router import authRouter
+from router import authRouter, projectRouter
 from db import database
 from apitally.fastapi import ApitallyMiddleware
 from dotenv import load_dotenv
@@ -45,6 +45,7 @@ app.add_middleware(
 )
 
 app.include_router(authRouter.router)
+app.include_router(projectRouter.router)
 
 @app.on_event("startup")
 async def start_consumer():

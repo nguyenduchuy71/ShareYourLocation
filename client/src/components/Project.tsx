@@ -8,15 +8,15 @@ import {
 } from "./ui/card"
 import { Label } from "./ui/label"
 
-function Project() {
+function Project({ project }) {
     return (
         <Card className="w-[350px] boder-1 border-slate-400">
             <CardHeader>
-                <CardTitle>Project</CardTitle>
+                <CardTitle>{project.name}</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name">Project description</Label>
+                    <Label htmlFor="name">{project.description}</Label>
                 </div>
             </CardContent>
             <CardFooter className="flex justify-between">

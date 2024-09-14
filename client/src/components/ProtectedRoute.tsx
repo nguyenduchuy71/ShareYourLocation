@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IAuthenStore } from "@/features/auth/epic/interface";
 import { useAuthStore } from "@/features/auth/epic";
-import { redirect } from "react-router-dom";
 import Loading from './Loading';
 
 export default function ProtectedRoute({ component: Component, ...props }) {
@@ -13,7 +12,8 @@ export default function ProtectedRoute({ component: Component, ...props }) {
         const fetchUserSession = async () => {
             const userData: any = await checkUserSessionEpic();
             if (!userData) {
-                return redirect('/login')
+                window.location.href = '/login'
+                return
             }
             setCheckingValidUser(true);
         };

@@ -14,3 +14,4 @@ class User(Base):
     avatar = Column(String, default="https://github.com/shadcn.png")
     createdTime = Column(DateTime, default=datetime.datetime.utcnow)
     role = Column(String, default="user")
+    projects = relationship("Project", back_populates="user")
