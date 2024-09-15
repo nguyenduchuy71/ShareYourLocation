@@ -1,10 +1,9 @@
-from fastapi import APIRouter, Depends, status, Request, HTTPException, Response
-from auth.utils import AuthUtil
-from schema.projectSchema import ProjectSchema
+from fastapi import APIRouter, Depends, status, HTTPException, Response
+from schema.projectSchema import ProjectCreate
 from services.projectService import ProjectService
 from dependencies.projectDepends import getProjectDepends
+from dependencies.authDepends import checkAuthenDepends
 from log.logger import logger
-from auth.config import SESSION_COOKIE_NAME
 from models.projectModel import Project
 
 router = APIRouter(
@@ -13,15 +12,11 @@ router = APIRouter(
     responses={404: {"description": "Not found"}})
 
 @router.post('/create')
-def createProject(request: Request, project: ProjectSchema, projectService:ProjectService = Depends(getProjectDepends)):
+def createProject(project: ProjectCreate,
+                  userInfo: str = Depends(checkAuthenDepends),
+                  projectService: ProjectService = Depends(getProjectDepends)):
     try:
-        session = request.cookies.get(SESSION_COOKIE_NAME)
-        if not session:
-            raise HTTPException(status_code=401, detail="Not authenticated")
-        userId = AuthUtil.verifySession(session)
-        if not userId:
-            raise HTTPException(status_code=403, detail="Invalid session")
-        projectInfo = projectService.createProject(project=project, userId=userId)
+        projectInfo = projectService.createProject(project=project, userId=userInfo)
         return projectInfo
     except HTTPException as httpError:
         logger.error(httpError)
@@ -34,17 +29,28 @@ def createProject(request: Request, project: ProjectSchema, projectService:Proje
         )
 
 @router.get('/')
-def getAllProjects(request: Request, projectService:ProjectService = Depends(getProjectDepends)):
+def getAllProjects(userInfo: str = Depends(checkAuthenDepends),
+                projectService:ProjectService = Depends(getProjectDepends)):
     try:
-        session = request.cookies.get(SESSION_COOKIE_NAME)
-        if not session:
-            raise HTTPException(status_code=401, detail="Not authenticated")
-        userId = AuthUtil.verifySession(session)
-        logger.info(f'userId: {userId}')
-        if not userId:
-            raise HTTPException(status_code=403, detail="Invalid session")
-        listProject = projectService.getAllProjects(userId=userId)
-        return listProject
+        return projectService.getAllProjects(userId=userInfo)
+    except HTTPException as httpError:
+        logger.error(httpError)
+        raise httpError
+    except Exception as error:
+        logger.error(error)
+        return Response(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={"message": "Internal Server Error"}
+        )
+
+@router.delete('/{id}')
+def deleteProject(id: str, userInfo: str = Depends(checkAuthenDepends),
+                  projectService:ProjectService = Depends(getProjectDepends)):
+    try:
+        projectService.deleteProject(id=id)
+        return Response(
+            status_code=status.HTTP_204_NO_CONTENT,
+        )
     except HTTPException as httpError:
         logger.error(httpError)
         raise httpError

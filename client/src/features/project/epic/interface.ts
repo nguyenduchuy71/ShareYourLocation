@@ -3,4 +3,5 @@ export interface IProjectStore {
   error: any;
   createProjectEpic: (project: any) => void;
   getAllProjectEpic: () => void;
+  deleteProjectEpic: (id: string) => void;
 }

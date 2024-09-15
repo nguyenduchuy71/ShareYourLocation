@@ -8,7 +8,7 @@ import {
 } from "./ui/card"
 import { Label } from "./ui/label"
 
-function Project({ project }) {
+function Project({ project, deleteProject }) {
     return (
         <Card className="w-[350px] boder-1 border-slate-400">
             <CardHeader>
@@ -21,7 +21,7 @@ function Project({ project }) {
             </CardContent>
             <CardFooter className="flex justify-between">
                 <Button>Join</Button>
-                <Button variant="destructive">Remove</Button>
+                <Button variant="destructive" onClick={() => deleteProject(project.id)}>Remove</Button>
             </CardFooter>
         </Card>
     )

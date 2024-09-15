@@ -17,3 +17,7 @@ class ProjectRepository:
 
     def getAllProjects(self, userId: str):
         return self.dbSession.query(Project).filter(Project.userId == userId).all()
+
+    def deleteProject(self, id: str):
+        self.dbSession.query(Project).filter(Project.id == id).delete()
+        return self.dbSession.commit()

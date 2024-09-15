@@ -12,3 +12,6 @@ class ProjectInfo(ProjectSchema):
     id: str
     userId: str
     createdTime: Any
+
+class ProjectCreate(ProjectSchema):
+    code: str

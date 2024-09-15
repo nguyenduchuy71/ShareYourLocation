@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { create } from 'zustand';
 import { IAuthenStore } from './interface';
 import { messages } from './messages'
-const BASEURL = `http://localhost:${import.meta.env.VITE_BACKEND_PORT}`;
+import apiClient from '@/lib/instanceAPI'
+import { handleLogout } from '@/lib/utils';
 
 export const useAuthStore = create<IAuthenStore>((set) => ({
   authInfo: null,
@@ -11,7 +11,7 @@ export const useAuthStore = create<IAuthenStore>((set) => ({
   loginEpic: async (credentials: any) => {
     let message = messages.loginSuccess;
     try {
-      const res = await axios.post(`${BASEURL}/login`, credentials, { withCredentials: true });
+      const res = await apiClient.post('/login', credentials);
       if (res.status === 200) {
         const userInfo = JSON.stringify(res.data)
         sessionStorage.setItem('auth', userInfo);
@@ -28,7 +28,7 @@ export const useAuthStore = create<IAuthenStore>((set) => ({
   signUpEpic: async (credentials: any) => {
     let message = messages.signUpSuccess;
     try {
-      const res = await axios.post(`${BASEURL}/signup`, credentials, { withCredentials: true });
+      const res = await apiClient.post('/signup', credentials);
       if (res.status === 200) {
         const userInfo = JSON.stringify(res.data)
         sessionStorage.setItem('auth', userInfo);
@@ -45,17 +45,20 @@ export const useAuthStore = create<IAuthenStore>((set) => ({
   },
   checkUserSessionEpic: async () => {
     try {
-      const res = await axios.get(`${BASEURL}/session`, { withCredentials: true });
+      const res = await apiClient.get('/session');
       return res.data;
     } catch (error) {
       return null;
     }
   },
   logoutEpic: async () => {
-    await axios.post(`${BASEURL}/logout`, { withCredentials: true });
-    sessionStorage.removeItem('auth');
-    set({ authInfo: null });
-    window.location.href = '/login';
+    try {
+      sessionStorage.removeItem('auth');
+      set({ authInfo: null });
+      handleLogout()
+    } catch (error) {
+      set({ error });
+    }
   },
   getAuthenUserInfo: () => {
     set({ authInfo: JSON.parse(sessionStorage.getItem('auth')) || null });

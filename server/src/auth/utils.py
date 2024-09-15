@@ -10,6 +10,7 @@ from log.logger import logger
 from auth.config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY, SESSION_COOKIE_NAME
 from itsdangerous import URLSafeSerializer
 from auth.exception import AuthException
+from jose.exceptions import ExpiredSignatureError
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -33,16 +34,6 @@ class AuthUtil:
         return encode_jwt
 
     @staticmethod
-    def getCurrentUser(token: str = Depends(oauth2_scheme), db: Session = Depends(database.get_db)):
-        session = request.cookies.get(SESSION_COOKIE_NAME)
-        if not session:
-            raise HTTPException(status_code=403, detail="Not authenticated")
-        userId = verifySession(session)
-        if db.query(User).filter(User.id == userId).first() is None:
-            raise AuthException.credentialException()
-        return userId
-
-    @staticmethod
     def createSession(data: dict):
         to_encode = data.copy()
         expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -58,5 +49,11 @@ class AuthUtil:
             if userId is None:
                 raise AuthException.credentialException()
             return userId
+        except ExpiredSignatureError:
+            raise ExpiredSignatureError
+        except JWTError:
+            raise HTTPException(
+                status_code=403, detail="Invalid token or token is expired"
+            )
         except Exception as error:
-            return error
+            raise error

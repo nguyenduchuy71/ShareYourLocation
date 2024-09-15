@@ -3,7 +3,7 @@ import os
 import signal
 import sys
 import json
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from router import authRouter, projectRouter
 from db import database
@@ -12,6 +12,10 @@ from dotenv import load_dotenv
 from log.logger import logger
 from confluent_kafka import Consumer, KafkaError
 from kafka import KafkaConsumer
+from jose import JWTError, jwt
+from jose.exceptions import ExpiredSignatureError
+from fastapi.responses import JSONResponse
+from auth.config import SESSION_COOKIE_NAME
 
 load_dotenv()
 app = FastAPI()
@@ -89,6 +93,13 @@ signal.signal(signal.SIGTERM, signal_handler)
 @app.get('/')
 def root():
     return {'message': "Hello, welcome to server"}
+
+@app.exception_handler(ExpiredSignatureError)
+async def expired_token_handler(request: Request, exc: ExpiredSignatureError):
+    return JSONResponse(
+        status_code=401,
+        content={"message": "Token has expired. Please log in again."},
+    )
 
 if __name__ == "__main__":
     import uvicorn
