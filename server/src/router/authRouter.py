@@ -4,14 +4,14 @@ from models.userModel import User
 from auth.utils import AuthUtil
 from schema.authSchema import Auth
 from services.authService import AuthService
-from dependencies.authDepends import getAuthDepends
+from dependencies.authDepends import AuthenDepens
 from log.logger import logger
 from auth.config import SESSION_COOKIE_NAME
 
 router = APIRouter(tags=['Authentication'])
 
 @router.post('/login')
-def signIn(response: Response, userCredentials: Auth, authService: AuthService = Depends(getAuthDepends)):
+def signIn(response: Response, userCredentials: Auth, authService: AuthService = Depends(AuthenDepens.getAuthDepends)):
     try:
         res = authService.signIn(userCredentials)
         if 'id' not in res:
@@ -31,7 +31,7 @@ def signIn(response: Response, userCredentials: Auth, authService: AuthService =
         )
 
 @router.post('/signup')
-def signUp(response: Response, userCredentials: Auth, authService: AuthService = Depends(getAuthDepends)):
+def signUp(response: Response, userCredentials: Auth, authService: AuthService = Depends(AuthenDepens.getAuthDepends)):
     try:
         res = authService.signUp(userCredentials)
         if 'id' not in res:

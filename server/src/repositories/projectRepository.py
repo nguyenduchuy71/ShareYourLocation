@@ -21,3 +21,6 @@ class ProjectRepository:
     def deleteProject(self, id: str):
         self.dbSession.query(Project).filter(Project.id == id).delete()
         return self.dbSession.commit()
+
+    def joinProject(self, project: Any):
+        return self.dbSession.query(Project).filter(Project.id == project.id).filter(Project.code == project.code).first()

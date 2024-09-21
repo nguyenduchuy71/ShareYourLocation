@@ -15,3 +15,7 @@ class ProjectInfo(ProjectSchema):
 
 class ProjectCreate(ProjectSchema):
     code: str
+
+class ProjectJoin(ProjectSchema):
+    id: str
+    code: str

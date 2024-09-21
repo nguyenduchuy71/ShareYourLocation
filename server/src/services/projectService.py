@@ -13,7 +13,7 @@ class ProjectService:
     
     def createProject(self, project: ProjectCreate, userId:str) -> Project:
         newProject = Project(name=project.name, description=project.description, code=project.code, userId=userId)
-        return json.loads(ProjectSchema.from_orm(self.projectRepo.save(newProject)).json())
+        return json.loads(ProjectInfo.from_orm(self.projectRepo.save(newProject)).json())
 
     def getAllProjects(self, userId:str):
         listProject = self.projectRepo.getAllProjects(userId)
@@ -21,3 +21,9 @@ class ProjectService:
 
     def deleteProject(self, id: str):
         self.projectRepo.deleteProject(id)
+
+    def joinProject(self, project: Any):
+        projectQuery = self.projectRepo.joinProject(project=project)
+        if projectQuery is None:
+            return None
+        return [json.loads(ProjectInfo.from_orm(projectQuery).json())]

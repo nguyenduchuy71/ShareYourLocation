@@ -1,3 +1,4 @@
+import React from 'react'
 import {
     Form,
     FormControl,
@@ -12,83 +13,51 @@ import { z } from "zod"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 
-const formSchema = z.object({
-    projectName: z.string().min(2, {
-        message: "Project name must be at least 2 characters.",
-    }),
-    projectDescription: z.string().min(4, {
-        message: "Project description must be at least 4 characters.",
-    }),
-    projectCode: z.string().min(4, {
-        message: "Project code must be at least 4 characters.",
-    }),
-})
-
-function CustomForm({ actions, setOpenDialog }) {
+function CustomForm({ actions, setOpenDialog, formSchema, objectData, type }) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            projectName: "",
-            projectDescription: "",
-            projectCode: "",
-        },
+            ...Object.keys(objectData).map(key => {
+                return { [key]: objectData[key].defaultValues }
+            })
+        }
     })
     const onSubmit = (values: z.infer<typeof formSchema>) => {
-        actions({
-            name: values.projectName,
-            description: values.projectDescription,
-            code: values.projectCode
-        })
+        actions({ ...values })
         setOpenDialog(false)
     }
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <FormField
-                    control={form.control}
-                    name="projectName"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Project name</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Project name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="projectDescription"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Project description</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Project description" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="projectCode"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Project code</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Project code" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <Button type="submit">Create</Button>
+            <form onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8">
+                {
+                    Object.keys(objectData).map(key => {
+                        return <FormField
+                            key={key}
+                            control={form.control}
+                            name={key}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>{objectData[key].label}</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            placeholder={objectData[key].placeholder}
+                                            type={objectData[key].type}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    })
+                }
+                <div className="float-right">
+                    <Button type="submit">{type}</Button>
+                </div>
             </form>
         </Form>
     )
 }
 
-export default CustomForm
+export default React.memo(CustomForm)

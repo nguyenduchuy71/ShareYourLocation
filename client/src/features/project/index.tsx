@@ -5,13 +5,15 @@ import CustomLayout from "@/components/custom/CustomLayout"
 import { IProjectStore } from "@/features/project/epic/interface";
 import { useProjectStore } from "@/features/project/epic";
 import CustomDialog from "@/components/custom/CustomDialog"
+import { createProjectFormSchema, objectCreatePrject } from "@/components/custom/validate/projectSchema";
 
 function ProjectScreen() {
-    const [projects, createProjectEpic, getAllProjectEpic, deleteProjectEpic] = useProjectStore((state: IProjectStore) => [
+    const [projects, createProjectEpic, getAllProjectEpic, deleteProjectEpic, joinProjectEpic] = useProjectStore((state: IProjectStore) => [
         state.projects,
         state.createProjectEpic,
         state.getAllProjectEpic,
-        state.deleteProjectEpic
+        state.deleteProjectEpic,
+        state.joinProjectEpic
     ]);
     useEffect(() => {
         getAllProjectEpic()
@@ -20,7 +22,11 @@ function ProjectScreen() {
         <CustomLayout>
             <div className="relative">
                 <div className="absolute top-0 right-0">
-                    <CustomDialog actions={createProjectEpic} title="Create project" />
+                    <CustomDialog actions={createProjectEpic}
+                        title="Create project"
+                        formSchema={createProjectFormSchema}
+                        objectData={objectCreatePrject}
+                        type="Create" />
                 </div>
             </div>
             <div className="min-h-screen my-14">
@@ -28,7 +34,9 @@ function ProjectScreen() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {
                             projects.map((project, key) => <div className="" key={key}>
-                                <Project project={project} deleteProject={deleteProjectEpic} />
+                                <Project project={project}
+                                    deleteProject={deleteProjectEpic}
+                                    joinProject={joinProjectEpic} />
                             </div>)
                         }
                     </div>

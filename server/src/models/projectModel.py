@@ -8,7 +8,7 @@ class Project(Base):
     __tablename__ = "projects"
 
     id = Column(String, primary_key=True, default=lambda: str(Helper.generate_uuid()))
-    name = Column(String, unique=True, index=True)
+    name = Column(String)
     description = Column(String, default="")
     code = Column(String, default="")
     createdTime = Column(DateTime, default=datetime.datetime.utcnow)

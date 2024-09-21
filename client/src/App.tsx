@@ -19,7 +19,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" index element={<HomeScreen />} />
-        <Route path="/map" element={
+        <Route path="/map/:projectId" element={
           <ProtectedRoute component={MapScreen} />
         } />
         <Route path="/projects" element={

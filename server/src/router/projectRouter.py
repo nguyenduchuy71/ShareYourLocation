@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, status, HTTPException, Response
-from schema.projectSchema import ProjectCreate
+from schema.projectSchema import ProjectCreate, ProjectJoin
 from services.projectService import ProjectService
 from dependencies.projectDepends import getProjectDepends
-from dependencies.authDepends import checkAuthenDepends
+from dependencies.authDepends import AuthenDepens
 from log.logger import logger
 from models.projectModel import Project
 
@@ -13,7 +13,7 @@ router = APIRouter(
 
 @router.post('/create')
 def createProject(project: ProjectCreate,
-                  userInfo: str = Depends(checkAuthenDepends),
+                  userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
                   projectService: ProjectService = Depends(getProjectDepends)):
     try:
         projectInfo = projectService.createProject(project=project, userId=userInfo)
@@ -29,7 +29,7 @@ def createProject(project: ProjectCreate,
         )
 
 @router.get('/')
-def getAllProjects(userInfo: str = Depends(checkAuthenDepends),
+def getAllProjects(userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
                 projectService:ProjectService = Depends(getProjectDepends)):
     try:
         return projectService.getAllProjects(userId=userInfo)
@@ -44,12 +44,33 @@ def getAllProjects(userInfo: str = Depends(checkAuthenDepends),
         )
 
 @router.delete('/{id}')
-def deleteProject(id: str, userInfo: str = Depends(checkAuthenDepends),
+def deleteProject(id: str, userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
                   projectService:ProjectService = Depends(getProjectDepends)):
     try:
         projectService.deleteProject(id=id)
         return Response(
             status_code=status.HTTP_204_NO_CONTENT,
+        )
+    except HTTPException as httpError:
+        logger.error(httpError)
+        raise httpError
+    except Exception as error:
+        logger.error(error)
+        return Response(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={"message": "Internal Server Error"}
+        )
+
+@router.post('/join')
+def joinProject(project: ProjectJoin, userInfo: 
+                str = Depends(AuthenDepens.checkAuthenDepends),
+                projectService:ProjectService = Depends(getProjectDepends)):
+    try:
+        projectQuery = projectService.joinProject(project=project)
+        if projectQuery is None:
+            raise HTTPException(status_code=404, detail=f"Student with id = {project.id} does not exist.")
+        return Response(
+            status_code=status.status.HTTP_200_OK,
         )
     except HTTPException as httpError:
         logger.error(httpError)
