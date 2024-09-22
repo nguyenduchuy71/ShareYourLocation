@@ -26,7 +26,7 @@ services:
       - db-network
       - redis-network
     healthcheck:
-      test: wget --quiet --tries=1 --spider http://localhost:${SERVER_PORT} || exit 1z
+      test: wget --quiet --tries=1 --spider http://localhost:${SERVER_PORT} || exit 1
       interval: 30s
       timeout: 10s
       retries: 5
@@ -38,6 +38,7 @@ services:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+    command: alembic upgrade head
     ports:
       - "${DB_PORT}:${DB_PORT}"
     volumes:
