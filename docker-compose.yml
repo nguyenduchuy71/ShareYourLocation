@@ -52,6 +52,8 @@ services:
     volumes:
       - .docker/data/redis:/data
     restart: unless-stopped
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
     networks:
       - redis-network
     healthcheck:

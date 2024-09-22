@@ -16,9 +16,21 @@ from jose import JWTError, jwt
 from jose.exceptions import ExpiredSignatureError
 from fastapi.responses import JSONResponse
 from auth.config import SESSION_COOKIE_NAME
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+from redis import asyncio as aioredis
 
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    redis = aioredis.from_url("redis://redis")
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+    yield
+PORT = int(os.getenv('PORT'))
 load_dotenv()
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 # consumer = KafkaConsumer('order_details', bootstrap_servers='localhost:29092')
 
 # KAFKA_BROKER = 'localhost:9092'
@@ -90,10 +102,6 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
 
-@app.get('/')
-def root():
-    return {'message': "Hello, welcome to server"}
-
 @app.exception_handler(ExpiredSignatureError)
 async def expired_token_handler(request: Request, exc: ExpiredSignatureError):
     return JSONResponse(
@@ -101,6 +109,10 @@ async def expired_token_handler(request: Request, exc: ExpiredSignatureError):
         content={"message": "Token has expired. Please log in again."},
     )
 
+@app.get('/')
+def root():
+    return {'message': "Hello, welcome to server"}
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", port=8888, reload=True, host='0.0.0.0')
+    uvicorn.run("main:app", port=PORT, reload=True, host='0.0.0.0')

@@ -11,16 +11,16 @@ class ProjectService:
     def __init__(self, projectRepo: ProjectRepository):
         self.projectRepo = projectRepo
     
-    def createProject(self, project: ProjectCreate, userId:str) -> Project:
+    async def createProject(self, project: ProjectCreate, userId:str) -> Project:
         newProject = Project(name=project.name, description=project.description, code=project.code, userId=userId)
-        return json.loads(ProjectInfo.from_orm(self.projectRepo.save(newProject)).json())
+        return json.loads(ProjectInfo.from_orm(await self.projectRepo.save(newProject)).json())
 
-    def getAllProjects(self, userId:str):
-        listProject = self.projectRepo.getAllProjects(userId)
+    async def getAllProjects(self, userId:str):
+        listProject = await self.projectRepo.getAllProjects(userId)
         return [json.loads(ProjectInfo.from_orm(project).json()) for project in listProject]
 
-    def deleteProject(self, id: str):
-        self.projectRepo.deleteProject(id)
+    async def deleteProject(self, id: str):
+        await self.projectRepo.deleteProject(id)
 
     def joinProject(self, project: Any):
         projectQuery = self.projectRepo.joinProject(project=project)

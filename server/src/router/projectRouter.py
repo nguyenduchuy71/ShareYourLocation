@@ -12,11 +12,11 @@ router = APIRouter(
     responses={404: {"description": "Not found"}})
 
 @router.post('/create')
-def createProject(project: ProjectCreate,
+async def createProject(project: ProjectCreate,
                   userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
                   projectService: ProjectService = Depends(getProjectDepends)):
     try:
-        projectInfo = projectService.createProject(project=project, userId=userInfo)
+        projectInfo = await projectService.createProject(project=project, userId=userInfo)
         return projectInfo
     except HTTPException as httpError:
         logger.error(httpError)
@@ -29,10 +29,10 @@ def createProject(project: ProjectCreate,
         )
 
 @router.get('/')
-def getAllProjects(userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
+async def getAllProjects(userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
                 projectService:ProjectService = Depends(getProjectDepends)):
     try:
-        return projectService.getAllProjects(userId=userInfo)
+        return await projectService.getAllProjects(userId=userInfo)
     except HTTPException as httpError:
         logger.error(httpError)
         raise httpError
@@ -44,10 +44,10 @@ def getAllProjects(userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
         )
 
 @router.delete('/{id}')
-def deleteProject(id: str, userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
+async def deleteProject(id: str, userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
                   projectService:ProjectService = Depends(getProjectDepends)):
     try:
-        projectService.deleteProject(id=id)
+        await projectService.deleteProject(id=id)
         return Response(
             status_code=status.HTTP_204_NO_CONTENT,
         )
