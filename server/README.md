@@ -43,6 +43,12 @@ To run the FastAPI development server locally, run:
 python src/main.py
 ```
 
+##### Note: Start with the Docker
+
+```sh
+docker-compose up -d --build
+```
+
 ## Features
 
 - **User Authentication**: Secure user authentication using JWT tokens.

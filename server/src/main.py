@@ -5,7 +5,7 @@ import sys
 import json
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from router import authRouter, projectRouter
+from routers import authRouter, projectRouter
 from db import database
 from apitally.fastapi import ApitallyMiddleware
 from dotenv import load_dotenv
@@ -28,7 +28,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     redis = aioredis.from_url("redis://redis")
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
     yield
-PORT = int(os.getenv('PORT'))
+
 load_dotenv()
 app = FastAPI(lifespan=lifespan)
 # consumer = KafkaConsumer('order_details', bootstrap_servers='localhost:29092')
@@ -109,10 +109,10 @@ async def expired_token_handler(request: Request, exc: ExpiredSignatureError):
         content={"message": "Token has expired. Please log in again."},
     )
 
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
+
 @app.get('/')
 def root():
     return {'message': "Hello, welcome to server"}
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", port=PORT, reload=True, host='0.0.0.0')
