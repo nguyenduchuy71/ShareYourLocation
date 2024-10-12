@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, status, HTTPException, Response
+
+from dependencies.authDepends import AuthenDepens
+from dependencies.projectDepends import getProjectDepends
+from log.logger import logger
 from schema.projectSchema import ProjectCreate, ProjectJoin
 from services.projectService import ProjectService
-from dependencies.projectDepends import getProjectDepends
-from dependencies.authDepends import AuthenDepens
-from log.logger import logger
-from models.projectModel import Project
 
 router = APIRouter(
     prefix="/project",

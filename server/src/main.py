@@ -1,27 +1,20 @@
-import asyncio
-import os
 import signal
-import sys
-import json
-from fastapi import FastAPI, Request, Response
-from fastapi.middleware.cors import CORSMiddleware
-from routers import authRouter, projectRouter
-from db import database
-from apitally.fastapi import ApitallyMiddleware
-from dotenv import load_dotenv
-from log.logger import logger
-from confluent_kafka import Consumer, KafkaError
-from kafka import KafkaConsumer
-from jose import JWTError, jwt
-from jose.exceptions import ExpiredSignatureError
-from fastapi.responses import JSONResponse
-from auth.config import SESSION_COOKIE_NAME
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
+
+from dotenv import load_dotenv
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from fastapi_cache.decorator import cache
+from jose.exceptions import ExpiredSignatureError
 from redis import asyncio as aioredis
+
+from db import database
+from log.logger import logger
+from routers import authRouter, projectRouter
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:

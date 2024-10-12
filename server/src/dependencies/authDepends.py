@@ -1,12 +1,14 @@
-from fastapi import Depends, Request
+from fastapi import Depends, Request, HTTPException
 from sqlalchemy.orm import Session
-from db.database import get_db
-from repositories.userRepository import UserRepository
-from services.authService import AuthService
-from auth.utils import AuthUtil
+
 from auth.config import SESSION_COOKIE_NAME
 from auth.exception import AuthException
+from auth.utils import AuthUtil
+from db.database import get_db
 from models.userModel import User
+from repositories.userRepository import UserRepository
+from services.authService import AuthService
+
 
 class AuthenDepens:
     @staticmethod

@@ -1,5 +1,7 @@
+from typing import Any
+
 from pydantic import BaseModel
-from typing import Optional, Any
+
 
 class ProjectSchema(BaseModel):
     name: str

@@ -1,12 +1,11 @@
 from fastapi import APIRouter, Depends, status, Request, HTTPException, Response
-from sqlalchemy.orm import Session
-from models.userModel import User
+
+from auth.config import SESSION_COOKIE_NAME
 from auth.utils import AuthUtil
-from schema.authSchema import Auth
-from services.authService import AuthService
 from dependencies.authDepends import AuthenDepens
 from log.logger import logger
-from auth.config import SESSION_COOKIE_NAME
+from schema.authSchema import Auth
+from services.authService import AuthService
 
 router = APIRouter(tags=['Authentication'])
 

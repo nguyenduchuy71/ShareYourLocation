@@ -1,10 +1,11 @@
 import json
-from fastapi import status
+
+from auth.utils import AuthUtil
 from models.userModel import User
 from repositories.userRepository import UserRepository
 from schema.authSchema import Auth
 from schema.userSchema import UserSchema
-from auth.utils import AuthUtil
+
 
 class AuthService:
     def __init__(self, userRepo: UserRepository):

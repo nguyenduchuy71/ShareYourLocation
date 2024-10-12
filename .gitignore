@@ -2,3 +2,16 @@ env
 .env
 server/src/firebase/serviceAccountKey.json
 .docker/*
+.idea/.gitignore
+.idea/misc.xml
+.idea/modules.xml
+.idea/ShareYourLocation.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml
+server/src/dependencies/__init__.py
+server/.idea/.gitignore
+server/.idea/misc.xml
+server/.idea/modules.xml
+server/.idea/server.iml
+server/.idea/vcs.xml
+server/.idea/inspectionProfiles/profiles_settings.xml

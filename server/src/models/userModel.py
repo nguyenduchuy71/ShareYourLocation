@@ -1,8 +1,11 @@
 import datetime
-from sqlalchemy import Boolean, Column, ForeignKey, String, DateTime
+
+from sqlalchemy import Column, String, DateTime
 from sqlalchemy.orm import relationship
-from db.database import Base
+
 from common.helper import Helper
+from db.database import Base
+
 
 class User(Base):
     __tablename__ = "users"

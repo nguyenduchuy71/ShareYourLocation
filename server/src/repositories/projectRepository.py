@@ -1,10 +1,13 @@
-from typing import Any, List
-from sqlalchemy.orm import Session
-from models.projectModel import Project
-from sqlalchemy.exc import SQLAlchemyError
-from fastapi_cache.decorator import cache
+from typing import Any
+
 from fastapi_cache import FastAPICache
+from fastapi_cache.decorator import cache
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session
+
+from models.projectModel import Project
 from .config import EXPIRE
+
 
 class ProjectRepository:
     def __init__(self, dbSession: Session):

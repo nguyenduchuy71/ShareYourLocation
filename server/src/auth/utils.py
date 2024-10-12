@@ -1,16 +1,14 @@
-from fastapi import Depends, status, HTTPException
-from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.orm import Session
-from passlib.context import CryptContext
-from jose import JWTError, jwt
 from datetime import datetime, timedelta
-from db import database
-from models.userModel import User
-from log.logger import logger
-from auth.config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY, SESSION_COOKIE_NAME
+
+from fastapi import HTTPException
+from fastapi.security import OAuth2PasswordBearer
 from itsdangerous import URLSafeSerializer
-from auth.exception import AuthException
+from jose import JWTError, jwt
 from jose.exceptions import ExpiredSignatureError
+from passlib.context import CryptContext
+
+from auth.config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
+from auth.exception import AuthException
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

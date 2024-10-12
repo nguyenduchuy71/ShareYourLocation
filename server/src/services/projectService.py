@@ -1,11 +1,10 @@
 import json
 from typing import Any
-from fastapi import status
-from repositories.projectRepository import ProjectRepository
+
 from models.projectModel import Project
-from schema.projectSchema import ProjectSchema, ProjectInfo, ProjectCreate
-from auth.utils import AuthUtil
-from log.logger import logger
+from repositories.projectRepository import ProjectRepository
+from schema.projectSchema import ProjectInfo, ProjectCreate
+
 
 class ProjectService:
     def __init__(self, projectRepo: ProjectRepository):

@@ -1,6 +1,7 @@
-from models.userModel import User
 from sqlalchemy.orm import Session
-from schema.authSchema import Auth
+
+from models.userModel import User
+
 
 class UserRepository:
     def __init__(self, dbSession: Session):
