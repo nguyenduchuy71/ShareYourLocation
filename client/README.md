@@ -1,30 +1,63 @@
-# React + TypeScript + Vite
+# Client-Side Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This client is a web application that enables users to share their location in real-time. The client-side of the application is built using modern web technologies to ensure a responsive and dynamic user experience.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+To get started with the project, follow these steps:
 
-- Configure the top-level `parserOptions` property like this:
+1. Clone the repository:
+    ```sh
+    https://github.com/nguyenduchuy71/ShareYourLocation
+    ```
+2. Navigate into the client-typescript directory:
+    ```sh
+    cd client
+    ```
+3. Install dependencies:
+    ```sh
+    npm install
+    ```
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## Usage
+
+To start the development server, run:
+```sh
+npm run dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Features
+
+- **User Authentication**: Secure user authentication ensures that only registered users can upload and view images.
+- **Real-Time Image Sharing**: Users can upload images and share them with others in real-time using WebSocket technology.
+- **Responsive Design**: The application is styled with TailwindCSS to ensure it looks great on all devices, from mobile phones to desktops.
+- **State Management**: Zustand is used for efficient state management, ensuring smooth interaction and real-time updates across the application.
+- **Firebase Storage**: Uploaded images are securely stored in Firebase Storage, leveraging its robust and scalable infrastructure.
+
+
+## Technologies Used
+
+<div align="left">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original-wordmark.svg" height="40" alt="html5 logo" />
+    <img width="12" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original-wordmark.svg" height="40" alt="css3 logo" />
+    <img width="12" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" height="40" alt="javascript_badge logo"  />
+    <img width="12" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original-wordmark.svg" height="40" marginRight="10" alt="react logo" />
+    <img width="12" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg" height="40" marginRight="10" alt="redux logo" />
+    <img width="12" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-original-wordmark.svg" height="40" alt="firebase logo" />
+    <img width="12" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" height="40" alt="nginx logo" />
+    <img width="12" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg" height="40" alt="firebase logo" />
+</div>
