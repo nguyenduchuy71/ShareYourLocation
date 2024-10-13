@@ -14,21 +14,22 @@ This client is a web application that enables users to share their location in r
 To get started with the project, follow these steps:
 
 1. Clone the repository:
-    ```sh
-    https://github.com/nguyenduchuy71/ShareYourLocation
-    ```
+   ```sh
+   https://github.com/nguyenduchuy71/ShareYourLocation
+   ```
 2. Navigate into the client-typescript directory:
-    ```sh
-    cd client
-    ```
+   ```sh
+   cd client
+   ```
 3. Install dependencies:
-    ```sh
-    npm install
-    ```
+   ```sh
+   npm install
+   ```
 
 ## Usage
 
 To start the development server, run:
+
 ```sh
 npm run dev
 ```
@@ -40,7 +41,6 @@ npm run dev
 - **Responsive Design**: The application is styled with TailwindCSS to ensure it looks great on all devices, from mobile phones to desktops.
 - **State Management**: Zustand is used for efficient state management, ensuring smooth interaction and real-time updates across the application.
 - **Firebase Storage**: Uploaded images are securely stored in Firebase Storage, leveraging its robust and scalable infrastructure.
-
 
 ## Technologies Used
 

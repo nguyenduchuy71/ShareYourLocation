@@ -3,7 +3,7 @@ from typing import Any
 
 from models.projectModel import Project
 from repositories.projectRepository import ProjectRepository
-from schema.projectSchema import ProjectInfo, ProjectCreate
+from schema.projectSchema import ProjectInfo, ProjectCreate, ProjectJoin
 
 
 class ProjectService:
@@ -21,8 +21,5 @@ class ProjectService:
     async def deleteProject(self, id: str):
         await self.projectRepo.deleteProject(id)
 
-    def joinProject(self, project: Any):
-        projectQuery = self.projectRepo.joinProject(project=project)
-        if projectQuery is None:
-            return None
-        return [json.loads(ProjectInfo.from_orm(projectQuery).json())]
+    def joinProject(self, project: ProjectJoin):
+        return self.projectRepo.joinProject(project=project)

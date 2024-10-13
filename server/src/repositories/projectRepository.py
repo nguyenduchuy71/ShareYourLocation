@@ -40,5 +40,5 @@ class ProjectRepository:
         await FastAPICache.clear(namespace="project")
         return rows_deleted
 
-    def joinProject(self, project: Any) -> Project:
+    def joinProject(self, project: Any):
         return self.dbSession.query(Project).filter(Project.id == project.id).filter(Project.code == project.code).first()

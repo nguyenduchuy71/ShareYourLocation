@@ -1,6 +1,3 @@
-import json
-from kafka import KafkaProducer
-
 ORDER_KAFKA_TOPIC = "order_details"
 # producer = KafkaProducer(bootstrap_servers="localhost:29092")
 

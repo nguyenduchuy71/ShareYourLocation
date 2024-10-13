@@ -18,6 +18,6 @@ class ProjectInfo(ProjectSchema):
 class ProjectCreate(ProjectSchema):
     code: str
 
-class ProjectJoin(ProjectSchema):
+class ProjectJoin(BaseModel):
     id: str
     code: str

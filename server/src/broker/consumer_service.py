@@ -1,4 +1,5 @@
 from kafka import KafkaConsumer
+
 from log.logger import logger
 
 consumer = KafkaConsumer('order_details', bootstrap_servers='localhost:29092')

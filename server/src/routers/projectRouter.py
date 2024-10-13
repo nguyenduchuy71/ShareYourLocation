@@ -11,10 +11,11 @@ router = APIRouter(
     tags=["Project"],
     responses={404: {"description": "Not found"}})
 
+
 @router.post('/create')
 async def createProject(project: ProjectCreate,
-                  userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
-                  projectService: ProjectService = Depends(getProjectDepends)):
+                        userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
+                        projectService: ProjectService = Depends(getProjectDepends)):
     try:
         projectInfo = await projectService.createProject(project=project, userId=userInfo)
         return projectInfo
@@ -28,9 +29,10 @@ async def createProject(project: ProjectCreate,
             content={"message": "Internal Server Error"}
         )
 
+
 @router.get('/')
 async def getAllProjects(userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
-                projectService:ProjectService = Depends(getProjectDepends)):
+                         projectService: ProjectService = Depends(getProjectDepends)):
     try:
         return await projectService.getAllProjects(userId=userInfo)
     except HTTPException as httpError:
@@ -43,9 +45,10 @@ async def getAllProjects(userInfo: str = Depends(AuthenDepens.checkAuthenDepends
             content={"message": "Internal Server Error"}
         )
 
+
 @router.delete('/{id}')
 async def deleteProject(id: str, userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
-                  projectService:ProjectService = Depends(getProjectDepends)):
+                        projectService: ProjectService = Depends(getProjectDepends)):
     try:
         await projectService.deleteProject(id=id)
         return Response(
@@ -61,20 +64,19 @@ async def deleteProject(id: str, userInfo: str = Depends(AuthenDepens.checkAuthe
             content={"message": "Internal Server Error"}
         )
 
+
 @router.post('/join')
-def joinProject(project: ProjectJoin, userInfo: 
-                str = Depends(AuthenDepens.checkAuthenDepends),
-                projectService:ProjectService = Depends(getProjectDepends)):
+def joinProject(project: ProjectJoin,
+                userInfo: str = Depends(AuthenDepens.checkAuthenDepends),
+                projectService: ProjectService = Depends(getProjectDepends)):
     try:
         projectQuery = projectService.joinProject(project=project)
         if projectQuery is None:
-            raise HTTPException(status_code=404, detail=f"Student with id = {project.id} does not exist.")
-        return Response(
-            status_code=status.status.HTTP_200_OK,
-        )
+            raise HTTPException(status_code=404, detail=f"Project with id = {id} does not exist.")
+        return Response(status_code=status.HTTP_200_OK)
     except HTTPException as httpError:
         logger.error(httpError)
-        raise httpError
+        return httpError
     except Exception as error:
         logger.error(error)
         return Response(

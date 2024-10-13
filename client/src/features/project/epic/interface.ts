@@ -1,5 +1,5 @@
 export interface IProjectStore {
-  projects: any[],
+  projects: any[];
   error: any;
   createProjectEpic: (project: any) => void;
   getAllProjectEpic: () => void;

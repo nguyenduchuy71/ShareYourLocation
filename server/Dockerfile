@@ -63,4 +63,4 @@ USER appuser
 EXPOSE 8000
 
 # Use Uvicorn as the application server with multiple workers
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--app-dir", "src"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--app-dir", "src", "--reload"]

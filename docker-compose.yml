@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # FastAPI Server Service
@@ -21,14 +21,22 @@ services:
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     expose:
-      - "${SERVER_PORT}"  # Exposes port to other services but not to the host
+      - "${SERVER_PORT}" # Exposes port to other services but not to the host
     depends_on:
       - db
       - redis
     networks:
       - app-network
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:${SERVER_PORT}/health"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=1",
+          "--spider",
+          "http://localhost:${SERVER_PORT}/health",
+        ]
       interval: 30s
       timeout: 10s
       retries: 5
